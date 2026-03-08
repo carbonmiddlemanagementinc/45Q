@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>45Q Carbon Capture Tax Credit — Carbon Middle Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:         #1C1C1A;
+    --slate:       #3B3D38;
+    --ash:         #6E6F69;
+    --linen:       #EAE6DE;
+    --chalk:       #F5F3EF;
+    --plains:      #B8A882;
+    --carmine:     #5C1A2E;
+    --spruce:      #3D5247;
+    --steel:       #6B7C8D;
+    --frost:       #C8D5D3;
+    --periwinkle:  #7B82C4;
+    --font-display:  'Playfair Display', Georgia, serif;
+    --font-body:     'IBM Plex Sans', 'Helvetica Neue', sans-serif;
+    --font-mono:     'DM Mono', 'Courier New', monospace;
+    --font-serif:    'Libre Baskerville', Georgia, serif;
+    --space-xs:  4px;  --space-sm:  8px;   --space-md:  16px;
+    --space-lg:  24px; --space-xl:  40px;  --space-2xl: 64px; --space-3xl: 96px;
+    --radius-sm: 2px;  --radius-md: 4px;   --radius-lg: 8px;
+    --border-thin:   1px solid var(--plains);
+    --border-mid:    1px solid var(--ash);
+    --border-strong: 1px solid var(--ink);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--chalk);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── ACCENT BAR ── */
+  @keyframes slide-in { from { transform:scaleX(0); transform-origin:left; } to { transform:scaleX(1); transform-origin:left; } }
+  .accent-bar { height:2px; background:linear-gradient(90deg, var(--carmine), var(--plains)); animation:slide-in 1.2s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+  /* ── STICKY NAV ── */
+  .site-nav { position:sticky; top:0; z-index:100; background:rgba(245,243,239,0.94); backdrop-filter:blur(12px); border-bottom:var(--border-strong); padding:var(--space-md) 0; }
+  .nav-inner { max-width:1080px; margin:0 auto; padding:0 var(--space-xl); display:flex; align-items:baseline; justify-content:space-between; gap:var(--space-lg); }
+  .nav-wordmark { font-family:var(--font-display); font-size:15px; font-weight:700; letter-spacing:-0.01em; color:var(--ink); text-decoration:none; }
+  .nav-wordmark span { font-weight:400; font-style:italic; color:var(--carmine); }
+  .nav-meta { font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ash); }
+
+  /* ── PAGE WRAP ── */
+  .page { max-width:1080px; margin:0 auto; padding:0 var(--space-xl); }
+
+  /* ── MASTHEAD ── */
+  .masthead { padding:var(--space-2xl) 0 var(--space-xl); border-bottom:var(--border-strong); display:grid; grid-template-columns:1fr auto; align-items:end; gap:var(--space-xl); }
+  .masthead-eyebrow { font-family:var(--font-mono); font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--ash); margin-bottom:var(--space-md); }
+  .masthead-h1 { font-family:var(--font-display); font-size:clamp(32px,5vw,52px); font-weight:700; line-height:1.05; letter-spacing:-0.025em; color:var(--ink); margin-bottom:var(--space-lg); }
+  .masthead-h1 em { font-style:italic; font-weight:400; color:var(--carmine); }
+  .masthead-sub { font-family:var(--font-body); font-size:14px; font-weight:300; color:var(--ash); line-height:1.7; max-width:560px; }
+  .masthead-updated { font-family:var(--font-mono); font-size:10px; color:var(--plains); letter-spacing:0.1em; text-transform:uppercase; }
+
+  /* ── KPI STRIP ── */
+  .kpi-strip { display:grid; grid-template-columns:repeat(5,1fr); border-bottom:var(--border-strong); }
+  .kpi { padding:var(--space-lg) var(--space-md); border-right:var(--border-thin); opacity:0; animation:fadeUp 0.5s ease forwards; }
+  .kpi:last-child { border-right:none; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  .kpi:nth-child(1){animation-delay:.08s} .kpi:nth-child(2){animation-delay:.16s}
+  .kpi:nth-child(3){animation-delay:.24s} .kpi:nth-child(4){animation-delay:.32s} .kpi:nth-child(5){animation-delay:.40s}
+  .kpi-val { font-family:var(--font-mono); font-size:26px; font-weight:300; letter-spacing:-0.02em; line-height:1; margin-bottom:var(--space-xs); }
+  .kpi-label { font-family:var(--font-body); font-size:11px; font-weight:400; color:var(--ash); line-height:1.4; margin-top:var(--space-sm); }
+  .kpi-sub { font-family:var(--font-mono); font-size:9px; color:var(--plains); margin-top:var(--space-xs); letter-spacing:0.02em; }
+
+  /* ── SECTION HEADER ── */
+  .section-hd { display:flex; align-items:flex-end; justify-content:space-between; gap:var(--space-lg); padding:var(--space-2xl) 0 var(--space-lg); }
+  .section-num { font-family:var(--font-mono); font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--ash); margin-bottom:var(--space-sm); }
+  .section-h2 { font-family:var(--font-display); font-size:26px; font-weight:700; letter-spacing:-0.015em; color:var(--ink); line-height:1.15; }
+  .section-desc { font-family:var(--font-body); font-size:13px; font-weight:300; color:var(--ash); max-width:340px; text-align:right; line-height:1.6; }
+
+  /* ── CHART CARD ── */
+  .chart-card { background:var(--linen); border-radius:var(--radius-md); border:var(--border-thin); overflow:hidden; margin-bottom:var(--space-2xl); }
+  .chart-card-header { padding:var(--space-lg) var(--space-xl) 0; display:flex; align-items:flex-start; justify-content:space-between; gap:var(--space-md); flex-wrap:wrap; }
+  .chart-title { font-family:var(--font-display); font-size:18px; font-weight:500; letter-spacing:-0.01em; color:var(--ink); }
+  .chart-sub { font-family:var(--font-body); font-size:11px; font-weight:300; color:var(--ash); margin-top:4px; }
+  .legend-row { display:flex; gap:var(--space-lg); flex-wrap:wrap; align-items:center; padding:var(--space-md) var(--space-xl) 0; }
+  .legend-item { display:flex; align-items:center; gap:var(--space-sm); font-family:var(--font-mono); font-size:10px; color:var(--ash); letter-spacing:0.04em; }
+  .legend-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+  /* ── TABS ── */
+  .tabs { display:flex; border-bottom:var(--border-mid); padding:0 var(--space-xl); margin-top:var(--space-md); }
+  .tab { font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ash); padding:var(--space-sm) var(--space-md); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; transition:color .15s,border-color .15s; user-select:none; }
+  .tab:hover { color:var(--slate); }
+  .tab.active { color:var(--ink); border-bottom-color:var(--carmine); }
+
+  /* ── CHART BODY ── */
+  .chart-body { padding:var(--space-md) var(--space-sm) var(--space-sm); min-height:380px; position:relative; }
+  .canvas-wrap { position:relative; width:100%; }
+  canvas { display:block; width:100% !important; height:auto !important; }
+
+  /* ── TOOLTIP ── */
+  .tooltip-box { background:var(--ink); border:var(--border-thin); border-radius:var(--radius-md); padding:var(--space-md); font-size:12px; line-height:1.8; max-width:300px; box-shadow:0 8px 32px rgba(28,28,26,.25); pointer-events:none; }
+  .tooltip-year { font-family:var(--font-mono); font-size:10px; color:var(--plains); margin-bottom:var(--space-sm); letter-spacing:0.08em; text-transform:uppercase; }
+  .tooltip-row { display:flex; justify-content:space-between; gap:var(--space-md); align-items:center; color:var(--frost); font-family:var(--font-body); }
+  .tooltip-row strong { color:var(--chalk); font-weight:500; }
+  .tooltip-note { margin-top:var(--space-sm); padding-top:var(--space-sm); border-top:1px solid var(--slate); font-size:11px; color:var(--ash); font-weight:300; line-height:1.5; }
+
+  /* ── NARRATIVE PILLS ── */
+  .narrative { padding:var(--space-md) var(--space-xl) var(--space-xl); display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-sm); }
+  .pill { background:var(--chalk); border:var(--border-thin); border-radius:var(--radius-sm); padding:var(--space-md); font-size:12px; font-weight:300; color:var(--ash); line-height:1.6; }
+  .pill strong { font-weight:500; color:var(--ink); display:block; margin-bottom:4px; font-size:12px; }
+
+  /* ── DATA TABLE ── */
+  .table-wrap { padding:0 var(--space-xl) var(--space-xl); }
+  .data-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:var(--space-md); }
+  .data-table thead tr { border-bottom:var(--border-mid); }
+  .data-table th { font-family:var(--font-mono); font-size:9px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--ash); padding:var(--space-sm) var(--space-md) var(--space-md) 0; text-align:left; }
+  .data-table th:not(:first-child) { text-align:right; }
+  .data-table tbody tr { border-bottom:var(--border-thin); transition:background .1s; }
+  .data-table tbody tr:hover { background:rgba(184,168,130,.12); }
+  .data-table td { padding:9px var(--space-md) 9px 0; font-family:var(--font-mono); font-size:12px; font-weight:300; color:var(--slate); vertical-align:middle; }
+  .data-table td:first-child { font-weight:400; color:var(--ink); }
+  .data-table td:not(:first-child) { text-align:right; }
+  .badge { display:inline-block; font-family:var(--font-mono); font-size:9px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; padding:3px 8px; border-radius:var(--radius-sm); }
+  .badge-hist { background:rgba(61,82,71,.12); color:var(--spruce); }
+  .badge-proj { background:rgba(92,26,46,.10); color:var(--carmine); }
+
+  /* ── PROJECTS ── */
+  .projects-wrap { padding:var(--space-md) var(--space-xl) var(--space-xl); }
+  .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:var(--space-sm); margin-top:var(--space-sm); }
+  .project-card { background:var(--chalk); border:var(--border-thin); border-radius:var(--radius-sm); padding:var(--space-md); }
+  .project-name { font-family:var(--font-body); font-weight:500; font-size:13px; color:var(--ink); margin-bottom:var(--space-sm); line-height:1.4; }
+  .project-tags { display:flex; gap:var(--space-xs); flex-wrap:wrap; margin-bottom:var(--space-sm); }
+  .project-tag { font-family:var(--font-mono); font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ash); border:1px solid var(--plains); padding:2px 7px; border-radius:2px; }
+  .project-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-sm); }
+  .project-stat-label { font-family:var(--font-mono); font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ash); margin-bottom:2px; }
+  .project-stat-val { font-family:var(--font-mono); font-size:12px; font-weight:300; color:var(--ink); }
+
+  /* ── CONTEXT CARDS ── */
+  .context-wrap { padding:var(--space-xl); }
+  .context-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:var(--space-md); }
+  .context-card { background:var(--chalk); border:var(--border-thin); border-radius:var(--radius-sm); padding:var(--space-lg); }
+  .context-val { font-family:var(--font-mono); font-size:28px; font-weight:300; letter-spacing:-0.02em; margin-bottom:var(--space-xs); line-height:1; }
+  .context-label { font-family:var(--font-body); font-size:12px; font-weight:500; color:var(--ink); margin-bottom:2px; }
+  .context-sub { font-family:var(--font-body); font-size:11px; font-weight:300; color:var(--ash); }
+
+  /* ── SHARE VIEW ── */
+  .share-intro { padding:var(--space-lg) var(--space-xl) var(--space-sm); font-size:13px; font-weight:300; color:var(--ash); }
+
+  /* ── ALERT ── */
+  .alert { display:flex; gap:var(--space-md); padding:var(--space-md) var(--space-lg); border-radius:var(--radius-md); margin-bottom:var(--space-2xl); align-items:flex-start; border-left:3px solid var(--steel); background:rgba(107,124,141,.08); }
+  .alert-icon { font-family:var(--font-mono); font-size:11px; font-weight:500; color:var(--steel); padding-top:1px; flex-shrink:0; }
+  .alert-text { font-size:13px; font-weight:300; color:var(--slate); line-height:1.5; }
+  .alert-text strong { font-weight:500; color:var(--ink); }
+
+  /* ── PULLQUOTE ── */
+  .pullquote { padding:var(--space-xl); border-left:3px solid var(--carmine); background:var(--linen); border-radius:0 var(--radius-md) var(--radius-md) 0; margin-bottom:var(--space-2xl); }
+  .pullquote p { font-family:var(--font-serif); font-size:17px; font-style:italic; line-height:1.65; color:var(--slate); }
+  .pullquote cite { display:block; font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--plains); margin-top:var(--space-md); font-style:normal; }
+
+  /* ── FOOTER ── */
+  .site-footer { margin-top:var(--space-2xl); padding:var(--space-xl) 0 var(--space-2xl); border-top:var(--border-strong); display:flex; align-items:baseline; justify-content:space-between; gap:var(--space-lg); flex-wrap:wrap; }
+  .footer-name { font-family:var(--font-display); font-size:15px; font-weight:700; letter-spacing:-0.01em; color:var(--ink); }
+  .footer-name span { font-weight:400; font-style:italic; color:var(--carmine); }
+  .footer-sources { font-family:var(--font-mono); font-size:10px; color:var(--ash); line-height:1.9; text-align:right; letter-spacing:0.02em; }
+  .footer-sources a { color:var(--steel); text-decoration:none; }
+  .footer-sources a:hover { color:var(--ink); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:800px){
+    .masthead{grid-template-columns:1fr}
+    .kpi-strip{grid-template-columns:repeat(3,1fr)}
+    .section-hd{flex-direction:column;align-items:flex-start}
+    .section-desc{text-align:left;max-width:none}
+    .narrative{grid-template-columns:1fr}
+    .nav-meta{display:none}
+  }
+  @media(max-width:520px){
+    .page{padding:0 var(--space-md)}
+    .kpi-strip{grid-template-columns:repeat(2,1fr)}
+    .masthead-h1{font-size:28px}
+    .chart-card-header{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<div class="accent-bar"></div>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-wordmark" href="https://carbonmiddlemanagementinc.substack.com/">
+      Carbon <span>Middle Management</span>
+    </a>
+    <span class="nav-meta">45Q Credit Dashboard · March 2026</span>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div>
+      <div class="masthead-eyebrow">Section 45Q · Tax Credit Analysis</div>
+      <h1 class="masthead-h1">How much has the U.S.<br>actually paid for<br><em>carbon capture?</em></h1>
+      <p class="masthead-sub">A decade of 45Q credit claims — cross-referenced from IRS SOI data, Treasury IG reports, EPA Subpart RR filings, and EIA injection volumes — compared against solar and wind incentives.</p>
+    </div>
+    <div>
+      <div class="masthead-updated">Updated March 2026</div>
+    </div>
+  </div>
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip">
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--spruce)">~$3.3B</div>
+      <div class="kpi-label">45Q Credits Claimed<br>2015–2024</div>
+      <div class="kpi-sub">Historical total</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:#8B6914">$820M</div>
+      <div class="kpi-label">45Q in 2024<br>alone</div>
+      <div class="kpi-sub">~12 MMmt EOR at $60–85/ton</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--carmine)">2.5%</div>
+      <div class="kpi-label">45Q share of<br>solar + wind + battery (2024)</div>
+      <div class="kpi-sub">Solar alone is 20× larger</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--steel)">~$43B</div>
+      <div class="kpi-label">Treasury projected<br>45Q (2025–2034)</div>
+      <div class="kpi-sub">10× acceleration from hist. pace</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--ink)">4–6</div>
+      <div class="kpi-label">Active Class VI<br>wells in the U.S.</div>
+      <div class="kpi-sub">vs. ~180,000 Class II EOR wells</div>
+    </div>
+  </div>
+
+  <!-- CHART 1 -->
+  <div class="section-hd">
+    <div>
+      <div class="section-num">Chart 01 of 02</div>
+      <h2 class="section-h2">45Q Credit Claims,<br>Historical & Projected</h2>
+    </div>
+    <div class="section-desc">Historical estimates pieced together from IRS Form 8933 data, Treasury IG reports, and EPA Subpart RR filings. Projections based on announced project pipelines.</div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-card-header">
+      <div>
+        <div class="chart-title">U.S. 45Q Tax Credit Claims (2015–2029)</div>
+        <div class="chart-sub">In billions USD · Hover bars/points for year detail</div>
+      </div>
+      <div style="display:flex;gap:var(--space-md);align-items:center;flex-wrap:wrap;">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--spruce)"></div>Historical</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--carmine)"></div>Mid Projection</div>
+        <div class="legend-item">
+          <svg width="26" height="10"><rect x="0" y="4" width="26" height="2" fill="var(--carmine)" opacity="0.25" rx="1"/></svg>
+          Range (Low–High)
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs1">
+      <div class="tab active" data-view="chart">Chart</div>
+      <div class="tab" data-view="table">Data Table</div>
+      <div class="tab" data-view="projects">Key Projects</div>
+    </div>
+
+    <div class="chart-body" id="view-chart">
+      <div class="canvas-wrap">
+        <canvas id="chart1" height="380"></canvas>
+      </div>
+      <div id="tooltip1" class="tooltip-box" style="display:none;position:absolute;z-index:10;"></div>
+    </div>
+
+    <div id="view-table" style="display:none;" class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Credits ($B)</th>
+            <th>Low</th>
+            <th>High</th>
+            <th style="text-align:right">Type</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <div id="view-projects" style="display:none;" class="projects-wrap">
+      <div class="projects-grid" id="projects-grid"></div>
+    </div>
+
+    <div class="narrative">
+      <div class="pill"><strong>Why so small?</strong>Pre-IRA credit rates ($10–50/ton) rarely penciled for new projects. The original 75 MMt cap was exhausted by 2020. Nearly all volume went to Class II EOR, not dedicated storage.</div>
+      <div class="pill"><strong>What changes after 2024?</strong>IRA-era rates ($60–85/ton storage, $180/ton DAC) plus ExxonMobil's 14 MTA contracted pipeline and Tallgrass hub commissioning drive the step-change.</div>
+      <div class="pill"><strong>Uncertainty is real.</strong>270+ projects announced, 19 operating. EPA proposed eliminating Subpart RR (the MRV backbone) in 2025. Class VI permitting runs 2–4 years per well.</div>
+    </div>
+  </div>
+
+  <!-- CHART 2 -->
+  <div class="section-hd">
+    <div>
+      <div class="section-num">Chart 02 of 02</div>
+      <h2 class="section-h2">45Q vs. Solar ITC,<br>Wind PTC & Battery ITC</h2>
+    </div>
+    <div class="section-desc">The scale difference is the story. 45Q is a per-ton credit on small volumes; ITC/PTC are percentage-of-capital credits on mass-deployed technologies.</div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-card-header">
+      <div>
+        <div class="chart-title">Clean Energy Tax Credits, All Programs (2015–2029)</div>
+        <div class="chart-sub">Annual claims in billions USD · Stacked view · Post-OBBBA cliff visible after 2027</div>
+      </div>
+      <div style="display:flex;gap:var(--space-md);align-items:center;flex-wrap:wrap;">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--plains)"></div>Solar ITC</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--periwinkle)"></div>Battery ITC</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--steel)"></div>Wind PTC</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--spruce)"></div>45Q CCS</div>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs2">
+      <div class="tab active" data-view="stacked">Stacked</div>
+      <div class="tab" data-view="share">45Q Share</div>
+      <div class="tab" data-view="context">Context</div>
+    </div>
+
+    <div class="chart-body" id="view-stacked">
+      <div class="canvas-wrap">
+        <canvas id="chart2" height="400"></canvas>
+      </div>
+      <div id="tooltip2" class="tooltip-box" style="display:none;position:absolute;z-index:10;"></div>
+    </div>
+
+    <div id="view-share" style="display:none;">
+      <div class="share-intro">45Q as a percentage of total clean energy credits (solar ITC + wind PTC + battery ITC + 45Q) by year.</div>
+      <div style="padding:0 var(--space-sm) var(--space-sm);" class="canvas-wrap">
+        <canvas id="chart3" height="260"></canvas>
+      </div>
+    </div>
+
+    <div id="view-context" style="display:none;" class="context-wrap">
+      <div class="context-grid" id="context-grid"></div>
+    </div>
+
+    <div class="narrative">
+      <div class="pill"><strong>Structural gap:</strong>Solar ITC = 30% of capital × hundreds of billions installed. 45Q = $85/ton × 12 MMmt. The math is inexorable — you can't close the gap with a higher rate alone.</div>
+      <div class="pill"><strong>OBBBA cliff (2028–29):</strong>The One Big Beautiful Bill Act (July 2025) compressed solar §48E and wind §45Y eligibility to placed-in-service by 12/31/2027, creating a sharp drop while 45Q was preserved.</div>
+      <div class="pill"><strong>Relative convergence:</strong>45Q's share of the combined credit pool is projected to rise from 2.5% (2024) to ~25% (2029) — not because CCS scales dramatically, but because solar/wind fall off a cliff.</div>
+    </div>
+  </div>
+
+  <!-- ALERT -->
+  <div class="alert">
+    <span class="alert-icon">i</span>
+    <span class="alert-text"><strong>Regulatory note:</strong> EPA proposed eliminating Subpart RR (the MRV backbone for 45Q) in September 2024. IRS Notice 2026-1 issued a temporary safe harbor for 2025 only. The regulatory outlook for dedicated storage monitoring remains unsettled.</span>
+  </div>
+
+  <!-- PULLQUOTE -->
+  <div class="pullquote">
+    <p>45Q is the cornerstone incentive for U.S. carbon capture — and it has paid out less in a decade than solar collects in a single quarter. The question isn't whether that changes. It's by how much, and how fast.</p>
+    <cite>— Carbon Middle Management · March 2026</cite>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-name">Carbon <span>Middle Management</span></div>
+    <div class="footer-sources">
+      IRS SOI (Form 8933) · Treasury IG 2020-IE-R-001 · EPA Subpart RR · EIA AEO 2025<br>
+      CBO Jan 2025 baseline · JCT JCX-59-23 · Global CCS Institute · IRS Notice 2026-1<br>
+      <a href="https://carbonmiddlemanagementinc.substack.com/">carbonmiddlemanagementinc.substack.com</a>
+    </div>
+  </footer>
+
+</div><!-- /page -->
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const q45Data = [
+  { year:'2015', hist:0.095, note:'Pre-BBA: ~$10–20/ton, mostly EOR. ~125 Subpart UU reporters.' },
+  { year:'2016', hist:0.100, note:'Pre-BBA: Primarily EOR via Class II wells. ADM Illinois only Class VI.' },
+  { year:'2017', hist:0.110, note:'IRS certifies 72M tons (96% of 75M cap) by 2020.' },
+  { year:'2018', hist:0.140, note:'Bipartisan Budget Act: $35 EOR / $50 sequestration. Cap removed.' },
+  { year:'2019', hist:0.210, note:'BBA ramp-up. 10 taxpayers claimed $1B+ total 2010–2019 (IRS SOI).' },
+  { year:'2020', hist:0.290, note:'COVID slowdown. Petra Nova suspended. EOR still dominant (11 of 12 projects).' },
+  { year:'2021', hist:0.370, note:'IRS finalizes 45Q regs. Subpart RR becomes formal gateway. Red Trail Energy (ND) begins.' },
+  { year:'2022', hist:0.500, note:'IRA passes Aug 2022: rates jump to $85/ton storage, $60 EOR, $180 DAC.' },
+  { year:'2023', hist:0.680, note:'IRA rates phase in. Treasury estimates $36.2B over 10yr. ~12 MMt EOR (EIA).' },
+  { year:'2024', hist:0.820, note:'12 MMmt EOR, ~0 saline storage. EPA proposes rolling back Subpart RR Sep 2024.' },
+  { year:'2025', lo:1.050, mid:1.350, hi:1.650, note:'Stratos DAC ramps (~250K tons, $180/ton). ExxonMobil CF Industries startup. Tallgrass commissioning.' },
+  { year:'2026', lo:1.400, mid:1.900, hi:2.500, note:'ExxonMobil NG3/Linde/Nucor online. Stratos full 500K tons. Air Products construction.' },
+  { year:'2027', lo:1.900, mid:2.700, hi:3.600, note:'OBBBA inflation adjustments. Air Products Louisiana online. Tallgrass ramps.' },
+  { year:'2028', lo:2.500, mid:3.700, hi:5.200, note:'Tallgrass full 5.1 MMt. Oxy South TX DAC (FID pending). EOR/storage parity at $85/ton.' },
+  { year:'2029', lo:3.200, mid:5.000, hi:7.200, note:'DOE demo projects. Saline storage growth begins. Post-OBBBA CCS gains ground.' },
+];
+
+const compData = [
+  { year:'2015', solar:3.2,  wind:3.8,  batt:0.0,  q45:0.095 },
+  { year:'2016', solar:3.5,  wind:4.2,  batt:0.0,  q45:0.100 },
+  { year:'2017', solar:4.2,  wind:4.4,  batt:0.0,  q45:0.110 },
+  { year:'2018', solar:4.8,  wind:4.6,  batt:0.0,  q45:0.140 },
+  { year:'2019', solar:5.3,  wind:4.9,  batt:0.0,  q45:0.210 },
+  { year:'2020', solar:5.1,  wind:5.8,  batt:0.0,  q45:0.290 },
+  { year:'2021', solar:6.4,  wind:6.2,  batt:0.0,  q45:0.370 },
+  { year:'2022', solar:7.8,  wind:7.5,  batt:0.4,  q45:0.500 },
+  { year:'2023', solar:12.5, wind:11.0, batt:1.2,  q45:0.680 },
+  { year:'2024', solar:16.0, wind:14.0, batt:2.2,  q45:0.820 },
+  { year:'2025', solar:18.0, wind:14.5, batt:3.0,  q45:1.350, proj:true },
+  { year:'2026', solar:22.0, wind:15.5, batt:4.2,  q45:1.900, proj:true },
+  { year:'2027', solar:28.0, wind:19.0, batt:5.5,  q45:2.700, proj:true },
+  { year:'2028', solar:12.0, wind:9.0,  batt:4.0,  q45:3.700, proj:true },
+  { year:'2029', solar:9.0,  wind:8.0,  batt:3.2,  q45:5.000, proj:true },
+];
+
+const projects = [
+  { name:'Stratos (Oxy/1PointFive)',        type:'DAC',                  well:'Class VI',    cap:'500K tons/yr', rate:'$180/ton', annual:'$90M/yr',  status:'Commissioning', color:'var(--spruce)' },
+  { name:'ExxonMobil × CF Industries',      type:'Point Source',         well:'Class II→VI', cap:'2.2 MTA',      rate:'$85/ton',  annual:'$187M/yr', status:'Started',       color:'var(--steel)' },
+  { name:'ExxonMobil × NG3/Linde/Nucor',   type:'Point Source',         well:'Class II/VI', cap:'~2 MTA',        rate:'$85/ton',  annual:'$170M/yr', status:'Development',   color:'var(--steel)' },
+  { name:'Tallgrass Eastern Wyoming Hub',   type:'Pipeline/Storage',     well:'Class VI',    cap:'5.1 MMt/yr',   rate:'$85/ton',  annual:'$434M/yr', status:'Commissioning', color:'var(--plains)' },
+  { name:'Air Products Louisiana (Blue H₂)',type:'Point Source',         well:'Class VI',    cap:'5 MTA',         rate:'$85/ton',  annual:'$425M/yr', status:'Construction',  color:'var(--periwinkle)' },
+  { name:'ExxonMobil LaBarge Expansion',    type:'Nat. Gas Processing',  well:'Class II',    cap:'1.2 MTA',       rate:'$85/ton',  annual:'$102M/yr', status:'Started',       color:'var(--steel)' },
+  { name:'Oxy South Texas DAC',             type:'DAC',                  well:'Class VI',    cap:'500K tons/yr', rate:'$180/ton', annual:'$90M/yr',  status:'FID Pending',   color:'var(--spruce)' },
+  { name:'ADM Illinois (existing)',         type:'Ethanol / Point Source',well:'Class VI',   cap:'~1 MTA',        rate:'$85/ton',  annual:'$85M/yr',  status:'Operating',     color:'var(--ash)' },
+];
+
+const contextCards = [
+  { val:'20×',   label:'Solar ITC vs. 45Q (2024)',    sub:'$16B solar vs. $820M CCS',         color:'var(--plains)' },
+  { val:'17×',   label:'Wind PTC vs. 45Q (2024)',     sub:'$14B wind vs. $820M CCS',          color:'var(--steel)' },
+  { val:'30%',   label:'Solar ITC rate',              sub:'Percent of total installed capital',color:'var(--plains)' },
+  { val:'$85/t', label:'45Q storage rate (IRA)',      sub:'Per metric ton CO₂ sequestered',   color:'var(--spruce)' },
+  { val:'30+ GW',label:'Annual solar additions (2024)',sub:'Vast capital base × 30% = huge ITC',color:'var(--plains)' },
+  { val:'12 MMt',label:'Annual CO₂ for EOR (2024)',   sub:'$85/ton × 12 MMt ≈ $720M',        color:'var(--spruce)' },
+  { val:'~25%',  label:'Projected 45Q share (2029)',  sub:'OBBBA solar/wind cliff helps CCS gap',color:'var(--ash)' },
+  { val:'$43B',  label:'Treasury 45Q est. 2025–34',  sub:'Still dwarfed by solar/wind combined',color:'var(--periwinkle)' },
+];
+
+// ── POPULATE TABLE ────────────────────────────────────────────────────────────
+const tbody = document.getElementById('table-body');
+q45Data.forEach(d => {
+  const isProj = d.mid !== undefined;
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td>${d.year}</td>
+    <td>${isProj ? d.mid.toFixed(2) : d.hist.toFixed(3)}</td>
+    <td>${isProj ? d.lo.toFixed(2) : '—'}</td>
+    <td>${isProj ? d.hi.toFixed(2) : '—'}</td>
+    <td><span class="badge ${isProj ? 'badge-proj' : 'badge-hist'}">${isProj ? 'Projected' : 'Historical'}</span></td>`;
+  tbody.appendChild(row);
+});
+
+// ── POPULATE PROJECTS ─────────────────────────────────────────────────────────
+const pgrid = document.getElementById('projects-grid');
+projects.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'project-card';
+  card.style.borderTop = `2px solid ${p.color}`;
+  card.innerHTML = `
+    <div class="project-name">${p.name}</div>
+    <div class="project-tags">
+      <span class="project-tag">${p.type}</span>
+      <span class="project-tag">${p.well}</span>
+    </div>
+    <div class="project-grid">
+      <div><div class="project-stat-label">Capacity</div><div class="project-stat-val">${p.cap}</div></div>
+      <div><div class="project-stat-label">Credit Rate</div><div class="project-stat-val">${p.rate}</div></div>
+      <div><div class="project-stat-label">Annual 45Q</div><div class="project-stat-val" style="color:${p.color}">${p.annual}</div></div>
+      <div><div class="project-stat-label">Status</div><div class="project-stat-val">${p.status}</div></div>
+    </div>`;
+  pgrid.appendChild(card);
+});
+
+// ── POPULATE CONTEXT CARDS ────────────────────────────────────────────────────
+const cgrid = document.getElementById('context-grid');
+contextCards.forEach(c => {
+  const el = document.createElement('div');
+  el.className = 'context-card';
+  el.innerHTML = `
+    <div class="context-val" style="color:${c.color}">${c.val}</div>
+    <div class="context-label">${c.label}</div>
+    <div class="context-sub">${c.sub}</div>`;
+  cgrid.appendChild(el);
+});
+
+// ── CHART PALETTE (design system) ─────────────────────────────────────────────
+const C = {
+  linen:'#EAE6DE', grid:'#D4CEBC', text:'#6E6F69', ink:'#1C1C1A',
+  hist:'#3D5247', proj:'#5C1A2E',
+  solar:'#B8A882', wind:'#6B7C8D', batt:'#7B82C4', ccs:'#3D5247',
+  amber:'#8B6914', chalk:'#F5F3EF',
+};
+
+function getPixelRatio() { return window.devicePixelRatio || 1; }
+function setupCanvas(canvas, w, h) {
+  const pr = getPixelRatio();
+  canvas.width = w * pr; canvas.height = h * pr;
+  canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+  const ctx = canvas.getContext('2d'); ctx.scale(pr, pr); return ctx;
+}
+
+// ── CHART 1 ───────────────────────────────────────────────────────────────────
+function drawChart1() {
+  const container = document.getElementById('chart1').parentElement;
+  const W = container.clientWidth || 800, H = 380;
+  const canvas = document.getElementById('chart1');
+  const ctx = setupCanvas(canvas, W, H);
+  const pad = { t:32, r:24, b:50, l:60 };
+  const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+  const N = q45Data.length, barW = (cw / N) * 0.5, maxY = 8.0;
+  function xPos(i) { return pad.l + (i + 0.5) * (cw / N); }
+  function yPos(v) { return pad.t + ch - (v / maxY) * ch; }
+
+  ctx.fillStyle = C.linen; ctx.fillRect(0, 0, W, H);
+
+  [0,1,2,3,4,5,6,7,8].forEach(v => {
+    const y = yPos(v);
+    ctx.strokeStyle = C.grid; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + cw, y); ctx.stroke();
+    ctx.fillStyle = C.text; ctx.font = `300 11px 'DM Mono',monospace`; ctx.textAlign = 'right';
+    ctx.fillText(`$${v}B`, pad.l - 8, y + 4);
+  });
+
+  ctx.fillStyle = C.text; ctx.font = `300 11px 'DM Mono',monospace`; ctx.textAlign = 'center';
+  q45Data.forEach((d, i) => { if (i % 2 === 0 || i === N - 1) ctx.fillText(d.year, xPos(i), H - pad.b + 18); });
+
+  const divX = (xPos(9) + xPos(10)) / 2;
+  ctx.save(); ctx.strokeStyle = C.amber; ctx.lineWidth = 1.5; ctx.setLineDash([5,4]); ctx.globalAlpha = 0.7;
+  ctx.beginPath(); ctx.moveTo(divX, pad.t); ctx.lineTo(divX, pad.t + ch); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha = 1;
+  ctx.fillStyle = C.amber; ctx.font = `300 10px 'DM Mono',monospace`; ctx.textAlign = 'center';
+  ctx.fillText('← Historical', divX - 44, pad.t - 10); ctx.fillText('Projected →', divX + 44, pad.t - 10);
+  ctx.restore();
+
+  const projIdxs = q45Data.map((d,i) => d.mid !== undefined ? i : -1).filter(i => i >= 0);
+  if (projIdxs.length) {
+    ctx.save(); ctx.globalAlpha = 0.10; ctx.fillStyle = C.proj;
+    ctx.beginPath(); ctx.moveTo(xPos(projIdxs[0]), yPos(q45Data[projIdxs[0]].hi));
+    projIdxs.forEach(i => ctx.lineTo(xPos(i), yPos(q45Data[i].hi)));
+    projIdxs.slice().reverse().forEach(i => ctx.lineTo(xPos(i), yPos(q45Data[i].lo)));
+    ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = 0.35; ctx.strokeStyle = C.proj; ctx.lineWidth = 1; ctx.setLineDash([4,3]);
+    ctx.beginPath(); projIdxs.forEach((i,j) => j===0?ctx.moveTo(xPos(i),yPos(q45Data[i].hi)):ctx.lineTo(xPos(i),yPos(q45Data[i].hi))); ctx.stroke();
+    ctx.beginPath(); projIdxs.forEach((i,j) => j===0?ctx.moveTo(xPos(i),yPos(q45Data[i].lo)):ctx.lineTo(xPos(i),yPos(q45Data[i].lo))); ctx.stroke();
+    ctx.setLineDash([]); ctx.globalAlpha = 1; ctx.restore();
+  }
+
+  q45Data.forEach((d, i) => {
+    if (d.hist === undefined) return;
+    const x = xPos(i) - barW/2, y = yPos(d.hist), bh = ch - (y - pad.t);
+    const grd = ctx.createLinearGradient(0, y, 0, y + bh);
+    grd.addColorStop(0, C.hist + 'dd'); grd.addColorStop(1, C.hist + '44');
+    ctx.fillStyle = grd;
+    const r = 3;
+    ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+barW-r,y); ctx.arcTo(x+barW,y,x+barW,y+r,r); ctx.lineTo(x+barW,y+bh); ctx.lineTo(x,y+bh); ctx.arcTo(x,y,x+r,y,r); ctx.closePath(); ctx.fill();
+  });
+
+  const lastHist = q45Data.findIndex(d => d.year==='2024'), firstProj = q45Data.findIndex(d => d.year==='2025');
+  ctx.save(); ctx.strokeStyle = C.proj; ctx.lineWidth = 2; ctx.setLineDash([4,3]); ctx.globalAlpha = 0.5;
+  ctx.beginPath(); ctx.moveTo(xPos(lastHist), yPos(q45Data[lastHist].hist)); ctx.lineTo(xPos(firstProj), yPos(q45Data[firstProj].mid)); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha = 1; ctx.restore();
+
+  ctx.strokeStyle = C.proj; ctx.lineWidth = 2.5;
+  ctx.beginPath(); projIdxs.forEach((i,j) => { const x=xPos(i),y=yPos(q45Data[i].mid); j===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }); ctx.stroke();
+  projIdxs.forEach(i => {
+    ctx.fillStyle = C.proj; ctx.beginPath(); ctx.arc(xPos(i),yPos(q45Data[i].mid),4.5,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = C.linen; ctx.lineWidth = 1.5; ctx.stroke();
+  });
+
+  canvas._xPos = xPos; canvas._yPos = yPos; canvas._pad = pad; canvas._W = W; canvas._H = H;
+}
+
+// ── CHART 2 ───────────────────────────────────────────────────────────────────
+function drawChart2() {
+  const container = document.getElementById('chart2').parentElement;
+  const W = container.clientWidth || 800, H = 400;
+  const canvas = document.getElementById('chart2');
+  const ctx = setupCanvas(canvas, W, H);
+  const pad = { t:32, r:24, b:50, l:60 };
+  const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+  const N = compData.length, barW = (cw / N) * 0.6, maxY = 72;
+  function xPos(i) { return pad.l + (i + 0.5) * (cw / N); }
+  function yPos(v) { return pad.t + ch - (v / maxY) * ch; }
+
+  ctx.fillStyle = C.linen; ctx.fillRect(0, 0, W, H);
+
+  [0,10,20,30,40,50,60,70].forEach(v => {
+    const y = yPos(v);
+    ctx.strokeStyle = C.grid; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + cw, y); ctx.stroke();
+    ctx.fillStyle = C.text; ctx.font = `300 11px 'DM Mono',monospace`; ctx.textAlign = 'right';
+    ctx.fillText(`$${v}B`, pad.l - 8, y + 4);
+  });
+
+  ctx.fillStyle = C.text; ctx.font = `300 11px 'DM Mono',monospace`; ctx.textAlign = 'center';
+  compData.forEach((d,i) => { if (i % 2 === 0 || i === N - 1) ctx.fillText(d.year, xPos(i), H - pad.b + 18); });
+
+  const divX = (xPos(9) + xPos(10)) / 2;
+  ctx.save(); ctx.strokeStyle = C.amber; ctx.lineWidth = 1.5; ctx.setLineDash([5,4]); ctx.globalAlpha = 0.7;
+  ctx.beginPath(); ctx.moveTo(divX, pad.t); ctx.lineTo(divX, pad.t + ch); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha = 1; ctx.restore();
+
+  const layers = [
+    { key:'solar', color:C.solar },
+    { key:'batt',  color:C.batt  },
+    { key:'wind',  color:C.wind  },
+    { key:'q45',   color:C.ccs   },
+  ];
+  compData.forEach((d, i) => {
+    let base = 0;
+    layers.forEach(layer => {
+      const v = d[layer.key], x = xPos(i) - barW/2;
+      const yTop = yPos(base + v), yBot = yPos(base), bh = yBot - yTop;
+      ctx.fillStyle = d.proj ? layer.color + '99' : layer.color + 'ee';
+      if (layer.key === 'q45') {
+        const r = 2;
+        ctx.beginPath(); ctx.moveTo(x+r,yTop); ctx.lineTo(x+barW-r,yTop); ctx.arcTo(x+barW,yTop,x+barW,yTop+r,r); ctx.lineTo(x+barW,yBot); ctx.lineTo(x,yBot); ctx.arcTo(x,yTop,x+r,yTop,r); ctx.closePath(); ctx.fill();
+      } else { ctx.fillRect(x, yTop, barW, bh); }
+      base += v;
+    });
+  });
+
+  canvas._xPos = xPos; canvas._yPos = yPos; canvas._pad = pad; canvas._W = W; canvas._H = H;
+}
+
+// ── CHART 3 ───────────────────────────────────────────────────────────────────
+function drawChart3() {
+  const container = document.getElementById('chart3').parentElement;
+  const W = container.clientWidth || 800, H = 260;
+  const canvas = document.getElementById('chart3');
+  const ctx = setupCanvas(canvas, W, H);
+  const pad = { t:24, r:24, b:44, l:56 };
+  const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+  const shares = compData.map(d => ({ year:d.year, share:(d.q45/(d.solar+d.batt+d.wind+d.q45))*100, proj:d.proj }));
+  const maxY = 30;
+  function xPos(i) { return pad.l + (i + 0.5) * (cw / compData.length); }
+  function yPos(v) { return pad.t + ch - (v / maxY) * ch; }
+
+  ctx.fillStyle = C.linen; ctx.fillRect(0, 0, W, H);
+
+  [0,5,10,15,20,25,30].forEach(v => {
+    const y = yPos(v);
+    ctx.strokeStyle = C.grid; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + cw, y); ctx.stroke();
+    ctx.fillStyle = C.text; ctx.font = `300 11px 'DM Mono',monospace`; ctx.textAlign = 'right';
+    ctx.fillText(`${v}%`, pad.l - 8, y + 4);
+  });
+
+  ctx.fillStyle = C.text; ctx.font = `300 11px 'DM Mono',monospace`; ctx.textAlign = 'center';
+  shares.forEach((d,i) => { if (i%2===0||i===shares.length-1) ctx.fillText(d.year, xPos(i), H-pad.b+18); });
+
+  ctx.save(); ctx.globalAlpha = 0.10;
+  const grd = ctx.createLinearGradient(0, pad.t, 0, pad.t+ch);
+  grd.addColorStop(0, C.proj); grd.addColorStop(1, C.linen);
+  ctx.fillStyle = grd;
+  ctx.beginPath();
+  shares.forEach((d,i) => i===0?ctx.moveTo(xPos(i),yPos(d.share)):ctx.lineTo(xPos(i),yPos(d.share)));
+  ctx.lineTo(xPos(shares.length-1),yPos(0)); ctx.lineTo(xPos(0),yPos(0)); ctx.closePath(); ctx.fill();
+  ctx.globalAlpha = 1; ctx.restore();
+
+  ctx.strokeStyle = C.proj; ctx.lineWidth = 2.5;
+  ctx.beginPath(); shares.forEach((d,i) => { const x=xPos(i),y=yPos(d.share); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); }); ctx.stroke();
+  shares.forEach((d,i) => {
+    ctx.fillStyle = d.proj ? C.proj+'88' : C.proj;
+    ctx.beginPath(); ctx.arc(xPos(i),yPos(d.share),3.5,0,Math.PI*2); ctx.fill();
+  });
+
+  const divX = (xPos(9)+xPos(10))/2;
+  ctx.save(); ctx.strokeStyle = C.amber; ctx.lineWidth=1; ctx.setLineDash([4,3]); ctx.globalAlpha=0.6;
+  ctx.beginPath(); ctx.moveTo(divX,pad.t); ctx.lineTo(divX,pad.t+ch); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha=1; ctx.restore();
+}
+
+// ── TOOLTIPS ──────────────────────────────────────────────────────────────────
+function attachTooltip1() {
+  const canvas = document.getElementById('chart1'), tooltip = document.getElementById('tooltip1');
+  const N = q45Data.length;
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect(), mx = e.clientX - rect.left;
+    const idx = Math.floor((mx - canvas._pad.l) / ((canvas._W - canvas._pad.l - canvas._pad.r) / N));
+    if (idx < 0 || idx >= N) { tooltip.style.display='none'; return; }
+    const d = q45Data[idx], isProj = d.mid !== undefined;
+    tooltip.innerHTML = `
+      <div class="tooltip-year">${d.year} — ${isProj ? 'Projected' : 'Historical'}</div>
+      ${isProj ? `
+        <div class="tooltip-row"><span>Mid</span><strong style="color:var(--frost)">$${d.mid.toFixed(2)}B</strong></div>
+        <div class="tooltip-row"><span>Low</span><strong>$${d.lo.toFixed(2)}B</strong></div>
+        <div class="tooltip-row"><span>High</span><strong>$${d.hi.toFixed(2)}B</strong></div>
+      ` : `
+        <div class="tooltip-row"><span>Credits Claimed</span><strong style="color:var(--frost)">$${d.hist.toFixed(3)}B</strong></div>
+      `}
+      <div class="tooltip-note">${d.note}</div>`;
+    tooltip.style.display = 'block';
+    tooltip.style.left = Math.min(mx+14, canvas._W-310)+'px';
+    tooltip.style.top = Math.max(e.clientY-rect.top-80, 8)+'px';
+  });
+  canvas.addEventListener('mouseleave', () => { tooltip.style.display='none'; });
+}
+
+function attachTooltip2() {
+  const canvas = document.getElementById('chart2'), tooltip = document.getElementById('tooltip2');
+  const N = compData.length;
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect(), mx = e.clientX - rect.left;
+    const idx = Math.floor((mx - canvas._pad.l) / ((canvas._W - canvas._pad.l - canvas._pad.r) / N));
+    if (idx < 0 || idx >= N) { tooltip.style.display='none'; return; }
+    const d = compData[idx], total = d.solar+d.batt+d.wind+d.q45;
+    const share = ((d.q45/total)*100).toFixed(1);
+    tooltip.innerHTML = `
+      <div class="tooltip-year">${d.year} — ${d.proj ? 'Projected' : 'Historical'}</div>
+      <div class="tooltip-row"><span>Solar ITC</span><strong style="color:#D4C9A8">$${d.solar.toFixed(1)}B</strong></div>
+      <div class="tooltip-row"><span>Battery ITC</span><strong style="color:#A8ACD4">$${d.batt.toFixed(1)}B</strong></div>
+      <div class="tooltip-row"><span>Wind PTC</span><strong style="color:#A0AEBC">$${d.wind.toFixed(1)}B</strong></div>
+      <div class="tooltip-row"><span>45Q CCS</span><strong style="color:#8AADA0">$${d.q45.toFixed(2)}B</strong></div>
+      <div class="tooltip-note">Total: $${total.toFixed(1)}B · 45Q share: ${share}%</div>`;
+    tooltip.style.display = 'block';
+    tooltip.style.left = Math.min(mx+14, canvas._W-260)+'px';
+    tooltip.style.top = Math.max(e.clientY-rect.top-80, 8)+'px';
+  });
+  canvas.addEventListener('mouseleave', () => { tooltip.style.display='none'; });
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+function setupTabs(tabsId, viewMap) {
+  document.getElementById(tabsId).querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.getElementById(tabsId).querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      Object.entries(viewMap).forEach(([key, el]) => { el.style.display = key===tab.dataset.view?'':'none'; });
+      if (tab.dataset.view==='share') drawChart3();
+    });
+  });
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+function init() {
+  drawChart1(); drawChart2();
+  attachTooltip1(); attachTooltip2();
+  setupTabs('tabs1', { chart:document.getElementById('view-chart'), table:document.getElementById('view-table'), projects:document.getElementById('view-projects') });
+  setupTabs('tabs2', { stacked:document.getElementById('view-stacked'), share:document.getElementById('view-share'), context:document.getElementById('view-context') });
+}
+
+window.addEventListener('load', init);
+window.addEventListener('resize', () => {
+  drawChart1(); drawChart2();
+  const sv = document.getElementById('view-share');
+  if (sv && sv.style.display!=='none') drawChart3();
+});
+</script>
+</body>
+</html>
