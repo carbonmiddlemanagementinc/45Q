@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>45Q — Carbon Middle Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inconsolata:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   CMM DESIGN SYSTEM v10  —  Olivetti · CCA · IBM · Geigy
+   Colour palette preserved exactly from v9.
+═══════════════════════════════════════════════════════════════════ */
+:root {
+  --ink:        #252628;
+  --slate:      #3B3D42;
+  --ash:        #6E6F69;
+  --linen:      #EAE6DE;
+  --chalk:      #FFFFFF;
+  --plains:     #B8A882;
+  --violet:     #535470;
+  --aegean:     #2A4A5E;
+  --steel:      #6B7C8D;
+  --frost:      #C8D5D3;
+  --periwinkle: #7B82C4;
+
+  --f-serif: 'Spectral', Georgia, serif;
+  --f-sans:  'Source Sans 3', 'Helvetica Neue', sans-serif;
+  --f-mono:  'Inconsolata', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--chalk);
+  color: var(--ink);
+  font-family: var(--f-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   FLAG  —  IBM: type + rule, nothing more.
+   3px rule top (IBM heavy open), 1px rule bottom (IBM standard close).
+───────────────────────────────────────────────────────────────── */
+.flag {
+  border-top: 3px solid var(--ink);
+  border-bottom: none;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 16px 48px;
+}
+.flag-name {
+  font-family: var(--f-serif);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+/* Geigy: product name as sole anchor — italic suffix */
+.flag-name em {
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ash);
+}
+.flag-right {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--ash);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 32px;
+}
+.flag-right a { color: var(--ash); text-decoration: none; }
+.flag-right a:hover { color: var(--ink); }
+
+/* ─────────────────────────────────────────────────────────────────
+   HEADLINE BAND
+   Olivetti: large letterform as composition, left-anchored.
+   CCA: deck text gives intellectual context.
+   IBM: section closed by ruled line.
+───────────────────────────────────────────────────────────────── */
+.headline-band {
+  border-bottom: none;
+  padding: 64px 48px 24px;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 64px;
+  align-items: end;
+}
+.headline-h1 {
+  font-family: var(--f-serif);
+  font-size: clamp(40px, 5.5vw, 76px);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+}
+.headline-right { padding-bottom: 4px; }
+.headline-deck {
+  font-family: var(--f-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--slate);
+  margin-bottom: 0;
+}
+.headline-byline { display: none; }
+
+/* ─────────────────────────────────────────────────────────────────
+   STAT STRIP  —  Geigy: number as sole anchor, white space active.
+   IBM: horizontal ruled bar. No box, no background.
+   3px ink opens, vertical 1px ink divides columns.
+───────────────────────────────────────────────────────────────── */
+.stat-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 16px 48px 48px;
+  gap: 32px;
+}
+.stat-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.stat-bar-item:first-child { padding-left: 0; }
+.sb-val {
+  font-family: var(--f-mono);
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.sb-label {
+  font-family: var(--f-sans);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--ash);
+  line-height: 1.4;
+}
+.sb-detail {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  color: rgba(110,111,105,0.55);
+  letter-spacing: 0.04em;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   BODY GRID  —  12 column, full-width newspaper broadsheet.
+   Olivetti / Müller-Brockmann: grid as compositional discipline.
+───────────────────────────────────────────────────────────────── */
+.body-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  border-bottom: none;
+}
+.zone-chart {
+  grid-column: 1 / 9;
+  padding: 32px 48px 32px;
+  border-bottom: none;
+}
+.zone-annotation {
+  grid-column: 9 / 13;
+  padding: 32px 48px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0;
+  border-bottom: none;
+}
+/* ─────────────────────────────────────────────────────────────────
+   ANNOTATION COLUMN  —  CCA: analytical intelligence, not labels.
+───────────────────────────────────────────────────────────────── */
+.anno-item {
+  flex: 1;
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid rgba(184,168,130,0.25);
+}
+.anno-item:last-child { border-bottom: none; padding-bottom: 0; }
+.zone-chart-wide {
+  grid-column: 1 / 13;
+  padding: 32px 48px 48px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   CHART TYPOGRAPHY  —  IBM: horizontal rules as structure.
+   Geigy: chart-title as sole anchor, subtitle serves title.
+───────────────────────────────────────────────────────────────── */
+.chart-hed {
+  font-family: var(--f-serif);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 12px;
+  text-align: center;
+}
+.chart-dek {
+  font-family: var(--f-sans);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ash);
+  line-height: 1.7;
+  margin-bottom: 28px;
+  max-width: 480px;
+}
+.chart-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+/* Below-chart view switcher bar */
+.chart-switcher {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  border-top: none;
+  padding-top: 16px;
+}
+.legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--ash);
+  letter-spacing: 0.04em;
+}
+.leg-dot {
+  width: 16px; height: 2px;
+  flex-shrink: 0;
+  border-radius: 0;
+}
+
+/* IBM segmented toggle — flat, zero radius */
+.view-sw {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--ink);
+  overflow: hidden;
+}
+.vsw {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ash);
+  padding: 6px 14px;
+  cursor: pointer;
+  border: none;
+  border-right: 1px solid var(--ink);
+  background: transparent;
+  transition: background 0.1s, color 0.1s;
+  border-radius: 0;
+}
+.vsw:last-child { border-right: none; }
+.vsw:hover { background: var(--linen); color: var(--ink); }
+.vsw.on { background: var(--ink); color: var(--chalk); border-color: var(--ink); }
+
+.data-view { display: none; }
+.data-view.vis { display: block; }
+
+canvas { display: block; width: 100% !important; height: auto !important; }
+
+.anno-head {
+  font-family: var(--f-serif);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.anno-body {
+  font-family: var(--f-sans);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ash);
+  line-height: 1.75;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   SECTION HEADER BAR
+   IBM: 3px rule opens new section. Geigy: heading as anchor.
+───────────────────────────────────────────────────────────────── */
+.section-hed-bar {
+  padding: 48px 48px 0;
+  border-top: 3px solid var(--ink);
+}
+.section-hed-bar h2 {
+  font-family: var(--f-serif);
+  font-size: clamp(24px, 2.8vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.section-hed-bar p {
+  font-family: var(--f-sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ash);
+  line-height: 1.7;
+  max-width: 600px;
+  padding-bottom: 32px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   THREE-COLUMN ANALYSIS  —  CCA: column layout for editorial depth.
+───────────────────────────────────────────────────────────────── */
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 32px;
+}
+.tcol {
+  padding: 32px 32px 0 32px;
+  border-right: 1px solid rgba(184,168,130,0.3);
+}
+.tcol:first-child { padding-left: 0; }
+.tcol:last-child { border-right: none; padding-right: 0; }
+.tcol-label {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--plains);
+  margin-bottom: 10px;
+}
+.tcol-head {
+  font-family: var(--f-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.tcol-body {
+  font-family: var(--f-sans);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ash);
+  line-height: 1.75;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   DATA TABLE  —  IBM: systematic alignment, Geigy: Akzidenz clarity.
+───────────────────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 4px;
+}
+.data-table thead tr { border-bottom: 1px solid var(--plains); }
+.data-table th {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ash);
+  padding: 0 16px 12px 0;
+  text-align: left;
+}
+.data-table th:not(:first-child) { text-align: right; }
+.data-table tbody tr { border-bottom: 1px solid rgba(184,168,130,0.2); }
+.data-table tbody tr:hover { background: rgba(184,168,130,0.06); }
+.data-table td {
+  padding: 10px 16px 10px 0;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--slate);
+}
+.data-table td:first-child { font-weight: 400; color: var(--ink); }
+.data-table td:not(:first-child) { text-align: right; }
+
+/* Geigy product taxonomy badge — zero radius */
+.badge {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 0;
+}
+.badge-hist { background: rgba(42,74,94,0.1); color: var(--aegean); }
+.badge-proj { background: rgba(83,84,112,0.09); color: var(--violet); }
+
+/* ─────────────────────────────────────────────────────────────────
+   PROJECTS GRID  —  Geigy: top-rule only, no box.
+   IBM: systematic, no radius.
+───────────────────────────────────────────────────────────────── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  margin-top: 4px;
+}
+.proj-card {
+  background: var(--chalk);
+  padding: 20px;
+  transition: background 0.12s;
+}
+.proj-card:hover { background: var(--linen); }
+.proj-name {
+  font-family: var(--f-serif);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+.proj-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; }
+.proj-tag {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ash);
+  border: 1px solid var(--plains);
+  padding: 2px 6px;
+  border-radius: 0;
+}
+.proj-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.psl { font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ash); margin-bottom: 2px; }
+.psv { font-family: var(--f-mono); font-size: 11px; font-weight: 300; color: var(--ink); }
+
+/* ─────────────────────────────────────────────────────────────────
+   CONTEXT STRIP  —  Geigy: number as anchor, white space active.
+───────────────────────────────────────────────────────────────── */
+.context-strip {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border-top: 1px solid var(--plains);
+  gap: 0;
+  margin-top: 32px;
+}
+.ctx-card {
+  padding: 20px 16px;
+  border-right: 1px solid rgba(184,168,130,0.3);
+}
+.ctx-card:last-child { border-right: none; }
+.ctx-val {
+  font-family: var(--f-mono);
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.ctx-lbl { font-family: var(--f-sans); font-size: 11px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+.ctx-sub { font-family: var(--f-sans); font-size: 10px; font-weight: 400; color: var(--ash); line-height: 1.4; }
+
+/* ─────────────────────────────────────────────────────────────────
+   TOOLTIP  —  ink background, mono type. Unchanged.
+───────────────────────────────────────────────────────────────── */
+.tt {
+  background: var(--ink);
+  padding: 12px 14px;
+  font-size: 11px;
+  max-width: 270px;
+  pointer-events: none;
+  position: absolute;
+  z-index: 20;
+  display: none;
+  border-radius: 0;
+}
+.tt-year {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  color: var(--plains);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.tt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.7;
+}
+.tt-row strong { color: #fff; font-weight: 400; }
+.tt-note {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-family: var(--f-sans);
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.55;
+  font-weight: 300;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   REGULATORY NOTE  —  IBM: ruled lines hold content without boxing.
+───────────────────────────────────────────────────────────────── */
+.reg-note {
+  padding: 32px 48px;
+  border-top: 1px solid var(--steel);
+  border-bottom: 1px solid var(--steel);
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.reg-tag {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--steel);
+  padding-top: 2px;
+}
+.reg-body {
+  font-family: var(--f-sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--slate);
+  line-height: 1.65;
+}
+.reg-body strong { font-weight: 500; color: var(--ink); }
+
+/* ─────────────────────────────────────────────────────────────────
+   CLOSING QUOTE  —  CCA "Great Ideas" drop-quote pattern.
+   120px quotation mark (Baskerville, Plains) holds compositional
+   space without any border or background tint.
+───────────────────────────────────────────────────────────────── */
+.closing {
+  padding: 72px 48px 80px;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--plains);
+}
+.closing-mark {
+  font-family: var(--f-serif);
+  font-size: 120px;
+  line-height: 0.72;
+  color: var(--plains);
+  font-weight: 700;
+  padding-top: 8px;
+  user-select: none;
+}
+.closing-text { padding-left: 8px; }
+.closing-quote {
+  font-family: var(--f-serif);
+  font-size: clamp(18px, 2.2vw, 28px);
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--slate);
+  margin-bottom: 28px;
+}
+.closing-cite {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--plains);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   FOOTER  —  IBM: systematic three-column, no decoration.
+   3px top rule (IBM heavy close).
+───────────────────────────────────────────────────────────────── */
+footer {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  gap: 0;
+  padding: 36px 48px;
+  border-top: none;
+}
+.ft-col { padding-right: 40px; }
+.ft-col:last-child { padding-right: 0; padding-left: 40px; text-align: right; }
+.ft-name {
+  font-family: var(--f-serif);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.ft-name em { font-weight: 400; font-style: italic; }
+.ft-desc { font-family: var(--f-sans); font-size: 11px; font-weight: 400; color: var(--ash); line-height: 1.6; }
+.ft-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-left: none;
+  border-right: none;
+  padding: 0 40px;
+}
+.ft-date { font-family: var(--f-mono); font-size: 11px; color: var(--ash); letter-spacing: 0.06em; text-align: center; }
+.ft-sources { font-family: var(--f-mono); font-size: 9px; color: var(--ash); line-height: 2; letter-spacing: 0.02em; }
+.ft-sources a { color: var(--steel); text-decoration: none; }
+.ft-sources a:hover { color: var(--ink); }
+
+/* ─────────────────────────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .headline-band { grid-template-columns: 1fr; gap: 32px; }
+  .stat-bar { grid-template-columns: repeat(2, 1fr); }
+  .stat-bar-item:nth-child(2) { border-right: none; }
+  .zone-chart { grid-column: 1 / 13; border-right: none; border-bottom: none; }
+  .zone-annotation { grid-column: 1 / 13; flex-direction: row; flex-wrap: wrap; padding-top: 32px; }
+  .anno-item { flex: 1 1 200px; }
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  .context-strip { grid-template-columns: repeat(4, 1fr); }
+  footer { grid-template-columns: 1fr; gap: 24px; }
+  .ft-col:last-child { padding-left: 0; text-align: left; }
+  .ft-middle { border: none; padding: 0; align-items: flex-start; }
+  .three-col { grid-template-columns: 1fr; }
+  .tcol, .tcol:nth-child(2), .tcol:last-child { border: none; padding-left: 0; padding-right: 0; }
+}
+@media (max-width: 640px) {
+  .flag { flex-direction: column; gap: 12px; }
+  .flag-right { flex-wrap: wrap; gap: 16px; }
+  .headline-band, .zone-chart, .zone-annotation,
+  .section-hed-bar, .zone-chart-wide, .reg-note, .closing, footer { padding-left: 24px; padding-right: 24px; }
+  .stat-bar { grid-template-columns: 1fr; }
+  .stat-bar-item { border-right: none; border-bottom: 1px solid var(--plains); }
+  .projects-grid, .context-strip { grid-template-columns: 1fr 1fr; }
+  .closing { grid-template-columns: 44px 1fr; }
+  .closing-mark { font-size: 80px; }
+}
+</style>
+</head>
+<body>
+
+<!-- FLAG — IBM: 3px rule top, type + hairline structure -->
+<header class="flag">
+  <div class="flag-name">Carbon Middle Management</div>
+  <nav class="flag-right">
+    <a href="#chart1-anchor">Credit History</a>
+    <a href="#chart2-anchor">Comparison</a>
+    <a href="#analysis">Analysis</a>
+    <a href="https://carbonmiddlemanagementinc.substack.com/">Substack ↗</a>
+    <span>Updated March 2026</span>
+  </nav>
+</header>
+
+<!-- HEADLINE BAND — Olivetti: letterform as composition -->
+<div class="headline-band">
+  <h1 class="headline-h1">How much has<br>the U.S. actually<br>paid for carbon<br>capture?</h1>
+  <div class="headline-right">
+    <p class="headline-deck">A decade of 45Q credit claims, cross-referenced through multiple bureaucracies, show the inadequacy of the tax credit historically, and promise going forward. Putting 45Q into context with solar and wind tax credits, the difference in success becomes clear.</p>
+    <div class="headline-byline">Section 45Q · Tax Credit Analysis · Carbon Middle Management · March 2026</div>
+  </div>
+</div>
+
+<!-- STAT BAR — Geigy: number as sole anchor, 2px colour index strip -->
+<div class="stat-bar">
+  <div class="stat-bar-item">
+    <span class="sb-val">~$3.3B</span>
+    <span class="sb-label">45Q credits claimed<br>2015–2024</span>
+    <span class="sb-detail">Historical total · Form 8933</span>
+  </div>
+  <div class="stat-bar-item">
+    <span class="sb-val">2.5%</span>
+    <span class="sb-label">Share of solar, wind and<br>battery credits in 2024</span>
+    <span class="sb-detail">Solar alone is 20× larger</span>
+  </div>
+  <div class="stat-bar-item">
+    <span class="sb-val">~$43B</span>
+    <span class="sb-label">Treasury projected 45Q<br>2025–2034</span>
+    <span class="sb-detail">10× acceleration from historical pace</span>
+  </div>
+  <div class="stat-bar-item">
+    <span class="sb-val">4–6</span>
+    <span class="sb-label">Active Class VI wells<br>in the United States</span>
+    <span class="sb-detail">vs. ~180,000 Class II EOR wells</span>
+  </div>
+</div>
+
+<!-- BODY GRID: chart (col 1–8) + annotation (col 9–12) -->
+<div class="body-grid" id="chart1-anchor">
+
+  <div class="zone-chart">
+    <h2 class="chart-hed">45Q Credit Claims, Historical and Projected</h2>
+    <div class="chart-controls">
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:var(--aegean)"></div>Historical</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--violet)"></div>Projected mid</div>
+        <div class="leg-item">
+          <svg width="20" height="8" style="flex-shrink:0"><rect x="0" y="3" width="20" height="2" fill="var(--violet)" opacity="0.3" rx="0"/></svg>
+          Low–high range
+        </div>
+      </div>
+    </div>
+
+    <div id="v-chart" class="data-view vis" style="position:relative">
+      <canvas id="chart1" height="360"></canvas>
+      <div id="tt1" class="tt"></div>
+    </div>
+    <div id="v-table" class="data-view">
+      <table class="data-table">
+        <thead><tr><th>Year</th><th>Credits ($B)</th><th>Low</th><th>High</th><th>Type</th></tr></thead>
+        <tbody id="tbody1"></tbody>
+      </table>
+    </div>
+    <div id="v-projects" class="data-view">
+      <div class="projects-grid" id="pgrid"></div>
+    </div>
+
+    <div class="chart-switcher">
+      <div class="view-sw" id="sw1">
+        <button class="vsw on" data-view="chart">Chart</button>
+        <button class="vsw" data-view="table">Table</button>
+        <button class="vsw" data-view="projects">Projects</button>
+      </div>
+    </div>
+
+  </div><!-- /zone-chart -->
+
+  <!-- ANNOTATION — CCA: analytical intelligence -->
+  <div class="zone-annotation" id="analysis">
+    <div class="anno-item">
+      <div class="anno-head">Why so small, historically?</div>
+      <div class="anno-body">Pre-IRA rates ($10–50/ton) rarely penciled; nearly all volume went to EOR, not dedicated storage.</div>
+    </div>
+    <div class="anno-item">
+      <div class="anno-head">What changes after 2024?</div>
+      <div class="anno-body">IRA rates ($60–85/ton, $180/ton DAC) plus ExxonMobil's contracted pipeline and Tallgrass hub drive the step-change.</div>
+    </div>
+    <div class="anno-item">
+      <div class="anno-head">Uncertainty is substantial</div>
+      <div class="anno-body">270+ projects announced, 19 operating; Class VI permitting runs 2–4 years per well.</div>
+    </div>
+  </div>
+
+</div><!-- /body-grid -->
+
+<!-- CHART 2 SECTION — IBM: 3px rule opens new section -->
+<div id="chart2-anchor">
+  <div class="zone-chart-wide" style="border-top: 3px solid var(--ink);">
+    <h2 class="chart-hed" style="padding-top:48px">45Q vs. Solar ITC, Wind PTC and Battery ITC</h2>
+    <div class="chart-controls">
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:var(--plains)"></div>Solar ITC</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--periwinkle)"></div>Battery ITC</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--steel)"></div>Wind PTC</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--aegean)"></div>45Q CCS</div>
+      </div>
+    </div>
+
+    <div id="v-stacked" class="data-view vis" style="position:relative">
+      <canvas id="chart2" height="380"></canvas>
+      <div id="tt2" class="tt"></div>
+    </div>
+    <div id="v-share" class="data-view" style="position:relative">
+      <p style="font-family:var(--f-sans);font-size:12px;font-weight:300;color:var(--ash);margin-bottom:20px">45Q as a percentage of total clean energy credits by year.</p>
+      <canvas id="chart3" height="240"></canvas>
+    </div>
+    <div id="v-context" class="data-view">
+      <div class="context-strip" id="cgrid"></div>
+    </div>
+
+    <div class="chart-switcher">
+      <div class="view-sw" id="sw2">
+        <button class="vsw on" data-view="stacked">Stacked</button>
+        <button class="vsw" data-view="share">45Q Share</button>
+        <button class="vsw" data-view="context">Context</button>
+      </div>
+    </div>
+
+    <!-- CCA three-column editorial analysis -->
+    <div class="three-col">
+      <div class="tcol">
+        <div class="tcol-label">Structural gap</div>
+        <div class="tcol-head">30% of capital vs. $85 per ton</div>
+        <div class="tcol-body">Solar ITC = 30% of capital across hundreds of billions installed. 45Q = $85/ton across 12 MMmt. The math is inexorable; you cannot close the gap with a higher rate alone.</div>
+      </div>
+      <div class="tcol">
+        <div class="tcol-label">OBBBA cliff (2028–29)</div>
+        <div class="tcol-head">Solar and wind fall off the table</div>
+        <div class="tcol-body">The One Big Beautiful Bill Act compressed solar §48E and wind §45Y eligibility to placed-in-service by 12/31/2027, creating a sharp drop while 45Q was preserved through the decade.</div>
+      </div>
+      <div class="tcol">
+        <div class="tcol-label">Relative convergence</div>
+        <div class="tcol-head">25% share by 2029, not by scaling up</div>
+        <div class="tcol-body">45Q's share of the combined credit pool is projected to rise from 2.5% to ~25% by 2029, not because CCS scales dramatically, but because solar and wind fall off a cliff.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REGULATORY NOTE — IBM: ruled lines, no box -->
+<div class="reg-note">
+  <div class="reg-tag">Regulatory note</div>
+  <div class="reg-body"><strong>Subpart RR uncertainty:</strong> EPA proposed eliminating Subpart RR (the MRV backbone for 45Q) in September 2024. IRS Notice 2026-1 issued a temporary safe harbor for 2025 only. The regulatory outlook for dedicated storage monitoring remains unsettled.</div>
+</div>
+
+
+<!-- FOOTER — IBM: three-column, 3px close rule -->
+<footer>
+  <div class="ft-col">
+    <div class="ft-name">Carbon Middle Management</div>
+    <div class="ft-desc">Carbon management policy research, regulatory analysis, and climate philanthropy strategy.</div>
+  </div>
+  <div class="ft-middle">
+    <div class="ft-date">March 2026<br>Section 45Q</div>
+  </div>
+  <div class="ft-col" style="text-align:right; padding-left:40px; padding-right:0">
+    <div class="ft-sources">
+      IRS SOI (Form 8933) · Treasury IG 2020-IE-R-001<br>
+      EPA Subpart RR · EIA AEO 2025 · CBO Jan 2025<br>
+      JCT JCX-59-23 · Global CCS Institute · IRS Notice 2026-1<br>
+      <a href="https://carbonmiddlemanagementinc.substack.com/">carbonmiddlemanagementinc.substack.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── DATA (unchanged) ──────────────────────────────────────────────────────────
+const q45Data = [
+  { year:'2015', hist:0.095, note:'Pre-BBA: ~$10–20/ton, mostly EOR. ~125 Subpart UU reporters.' },
+  { year:'2016', hist:0.100, note:'Pre-BBA: Primarily EOR via Class II wells. ADM Illinois only Class VI.' },
+  { year:'2017', hist:0.110, note:'IRS certifies 72M tons (96% of 75M cap) by 2020.' },
+  { year:'2018', hist:0.140, note:'Bipartisan Budget Act: $35 EOR / $50 sequestration. Cap removed.' },
+  { year:'2019', hist:0.210, note:'BBA ramp-up. 10 taxpayers claimed $1B+ total 2010–2019 (IRS SOI).' },
+  { year:'2020', hist:0.290, note:'COVID slowdown. Petra Nova suspended. EOR still dominant (11 of 12 projects).' },
+  { year:'2021', hist:0.370, note:'IRS finalizes 45Q regs. Subpart RR becomes formal gateway. Red Trail Energy (ND) begins.' },
+  { year:'2022', hist:0.500, note:'IRA passes Aug 2022: rates jump to $85/ton storage, $60 EOR, $180 DAC.' },
+  { year:'2023', hist:0.680, note:'IRA rates phase in. Treasury estimates $36.2B over 10yr. ~12 MMt EOR (EIA).' },
+  { year:'2024', hist:0.820, note:'12 MMmt EOR, ~0 saline storage. EPA proposes rolling back Subpart RR Sep 2024.' },
+  { year:'2025', lo:1.050, mid:1.350, hi:1.650, note:'Stratos DAC ramps (~250K tons, $180/ton). ExxonMobil CF Industries startup. Tallgrass commissioning.' },
+  { year:'2026', lo:1.400, mid:1.900, hi:2.500, note:'ExxonMobil NG3/Linde/Nucor online. Stratos full 500K tons. Air Products construction.' },
+  { year:'2027', lo:1.900, mid:2.700, hi:3.600, note:'OBBBA inflation adjustments. Air Products Louisiana online. Tallgrass ramps.' },
+  { year:'2028', lo:2.500, mid:3.700, hi:5.200, note:'Tallgrass full 5.1 MMt. Oxy South TX DAC (FID pending). EOR/storage parity at $85/ton.' },
+  { year:'2029', lo:3.200, mid:5.000, hi:7.200, note:'DOE demo projects. Saline storage growth begins. Post-OBBBA CCS gains ground.' },
+];
+
+const compData = [
+  { year:'2015', solar:3.2,  wind:3.8,  batt:0.0,  q45:0.095 },
+  { year:'2016', solar:3.5,  wind:4.2,  batt:0.0,  q45:0.100 },
+  { year:'2017', solar:4.2,  wind:4.4,  batt:0.0,  q45:0.110 },
+  { year:'2018', solar:4.8,  wind:4.6,  batt:0.0,  q45:0.140 },
+  { year:'2019', solar:5.3,  wind:4.9,  batt:0.0,  q45:0.210 },
+  { year:'2020', solar:5.1,  wind:5.8,  batt:0.0,  q45:0.290 },
+  { year:'2021', solar:6.4,  wind:6.2,  batt:0.0,  q45:0.370 },
+  { year:'2022', solar:7.8,  wind:7.5,  batt:0.4,  q45:0.500 },
+  { year:'2023', solar:12.5, wind:11.0, batt:1.2,  q45:0.680 },
+  { year:'2024', solar:16.0, wind:14.0, batt:2.2,  q45:0.820 },
+  { year:'2025', solar:18.0, wind:14.5, batt:3.0,  q45:1.350, proj:true },
+  { year:'2026', solar:22.0, wind:15.5, batt:4.2,  q45:1.900, proj:true },
+  { year:'2027', solar:28.0, wind:19.0, batt:5.5,  q45:2.700, proj:true },
+  { year:'2028', solar:12.0, wind:9.0,  batt:4.0,  q45:3.700, proj:true },
+  { year:'2029', solar:9.0,  wind:8.0,  batt:3.2,  q45:5.000, proj:true },
+];
+
+const projects = [
+  { name:'Stratos (Oxy/1PointFive)',        type:'DAC',                  well:'Class VI',    cap:'500K tons/yr', rate:'$180/ton', annual:'$90M/yr',   status:'Commissioning', color:'var(--aegean)' },
+  { name:'ExxonMobil × CF Industries',      type:'Point Source',         well:'Class II→VI', cap:'2.2 MTA',      rate:'$85/ton',  annual:'$187M/yr',  status:'Started',       color:'var(--steel)' },
+  { name:'ExxonMobil × NG3/Linde/Nucor',   type:'Point Source',         well:'Class II/VI', cap:'~2 MTA',       rate:'$85/ton',  annual:'$170M/yr',  status:'Development',   color:'var(--steel)' },
+  { name:'Tallgrass Eastern Wyoming Hub',   type:'Pipeline/Storage',     well:'Class VI',    cap:'5.1 MMt/yr',   rate:'$85/ton',  annual:'$434M/yr',  status:'Commissioning', color:'var(--plains)' },
+  { name:'Air Products Louisiana (Blue H₂)',type:'Point Source',         well:'Class VI',    cap:'5 MTA',        rate:'$85/ton',  annual:'$425M/yr',  status:'Construction',  color:'var(--periwinkle)' },
+  { name:'ExxonMobil LaBarge Expansion',    type:'Nat. Gas Processing',  well:'Class II',    cap:'1.2 MTA',      rate:'$85/ton',  annual:'$102M/yr',  status:'Started',       color:'var(--steel)' },
+  { name:'Oxy South Texas DAC',             type:'DAC',                  well:'Class VI',    cap:'500K tons/yr', rate:'$180/ton', annual:'$90M/yr',   status:'FID Pending',   color:'var(--aegean)' },
+  { name:'ADM Illinois (existing)',         type:'Ethanol/Point Source', well:'Class VI',    cap:'~1 MTA',       rate:'$85/ton',  annual:'$85M/yr',   status:'Operating',     color:'var(--ash)' },
+];
+
+const ctxCards = [
+  { val:'20×',   lbl:'Solar ITC vs. 45Q (2024)',      sub:'$16B solar vs. $820M CCS',           color:'var(--plains)' },
+  { val:'17×',   lbl:'Wind PTC vs. 45Q (2024)',       sub:'$14B wind vs. $820M CCS',            color:'var(--steel)' },
+  { val:'30%',   lbl:'Solar ITC rate',                sub:'Percent of total installed capital',  color:'var(--plains)' },
+  { val:'$85/t', lbl:'45Q storage rate (IRA)',        sub:'Per metric ton CO₂ sequestered',     color:'var(--aegean)' },
+  { val:'30+ GW',lbl:'Annual solar adds (2024)',      sub:'Vast capital base × 30% = huge ITC', color:'var(--plains)' },
+  { val:'12 MMt',lbl:'Annual CO₂ for EOR (2024)',     sub:'$85/ton × 12 MMt ≈ $720M',          color:'var(--aegean)' },
+  { val:'~25%',  lbl:'Projected 45Q share (2029)',    sub:'OBBBA solar/wind cliff helps CCS',   color:'var(--ash)' },
+  { val:'$43B',  lbl:'Treasury 45Q est. 2025–34',    sub:'Still dwarfed by solar/wind combined',color:'var(--periwinkle)' },
+];
+
+// ── POPULATE ──────────────────────────────────────────────────────────────────
+const tb = document.getElementById('tbody1');
+q45Data.forEach(d => {
+  const p = d.mid !== undefined;
+  tb.innerHTML += `<tr>
+    <td>${d.year}</td>
+    <td>${p ? d.mid.toFixed(2) : d.hist.toFixed(3)}</td>
+    <td>${p ? d.lo.toFixed(2) : '—'}</td>
+    <td>${p ? d.hi.toFixed(2) : '—'}</td>
+    <td><span class="badge ${p?'badge-proj':'badge-hist'}">${p?'Projected':'Historical'}</span></td>
+  </tr>`;
+});
+
+const pg = document.getElementById('pgrid');
+projects.forEach(p => {
+  pg.innerHTML += `<div class="proj-card" style="border-top:2px solid var(--ink)">
+    <div class="proj-name">${p.name}</div>
+    <div class="proj-tags"><span class="proj-tag">${p.type}</span><span class="proj-tag">${p.well}</span></div>
+    <div class="proj-stats">
+      <div><div class="psl">Capacity</div><div class="psv">${p.cap}</div></div>
+      <div><div class="psl">Rate</div><div class="psv">${p.rate}</div></div>
+      <div><div class="psl">Annual 45Q</div><div class="psv" style="color:${p.color}">${p.annual}</div></div>
+      <div><div class="psl">Status</div><div class="psv">${p.status}</div></div>
+    </div>
+  </div>`;
+});
+
+const cg = document.getElementById('cgrid');
+ctxCards.forEach(c => {
+  cg.innerHTML += `<div class="ctx-card">
+    <div class="ctx-val" style="color:${c.color}">${c.val}</div>
+    <div class="ctx-lbl">${c.lbl}</div>
+    <div class="ctx-sub">${c.sub}</div>
+  </div>`;
+});
+
+// ── CANVAS COLOURS (unchanged) ────────────────────────────────────────────────
+const C = {
+  bg:'#FFFFFF', grid:'rgba(184,168,130,0.22)', ax:'#6E6F69',
+  ink:'#252628',
+  hist:'#2A4A5E', proj:'#535470',
+  solar:'#B8A882', wind:'#6B7C8D', batt:'#7B82C4', ccs:'#2A4A5E',
+};
+
+function pr() { return window.devicePixelRatio||1; }
+function initCanvas(id, w, h) {
+  const c = document.getElementById(id), r = pr();
+  c.width = w*r; c.height = h*r;
+  c.style.width = w+'px'; c.style.height = h+'px';
+  const ctx = c.getContext('2d'); ctx.scale(r,r); return ctx;
+}
+
+function drawC1() {
+  const el = document.getElementById('chart1');
+  const W = el.parentElement.clientWidth||900, H = 360;
+  const ctx = initCanvas('chart1', W, H);
+  const p = {t:24,r:24,b:52,l:58};
+  const cw = W-p.l-p.r, ch = H-p.t-p.b;
+  const N = q45Data.length, bw = (cw/N)*0.5, my = 8;
+  const xp = i => p.l+(i+0.5)*(cw/N);
+  const yp = v => p.t+ch-(v/my)*ch;
+
+  // background
+  ctx.fillStyle = C.bg; ctx.fillRect(0,0,W,H);
+
+  // grid lines (inside plot area)
+  [0,2,4,6,8].forEach(v => {
+    const y = yp(v);
+    ctx.strokeStyle = C.grid; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(p.l,y); ctx.lineTo(p.l+cw,y); ctx.stroke();
+  });
+
+  // Rate-change event markers — dashed verticals
+  const rateEvents = [
+    { year:'2018', color:'#6B7C8D' },
+    { year:'2022', color:'#535470' },
+    { year:'2025', color:'#2A4A5E' },
+  ];
+  rateEvents.forEach(ev => {
+    const idx = q45Data.findIndex(d => d.year === ev.year);
+    if(idx < 0) return;
+    const ex = xp(idx);
+    ctx.save();
+    ctx.strokeStyle = ev.color; ctx.lineWidth = 1; ctx.setLineDash([2,3]); ctx.globalAlpha = 0.45;
+    ctx.beginPath(); ctx.moveTo(ex, p.t); ctx.lineTo(ex, p.t+ch); ctx.stroke();
+    ctx.setLineDash([]); ctx.restore();
+  });
+
+  // All rate labels in the $2–$4B box, vertically centred at $3B midpoint
+  const labelY = yp(3);
+  const lineH = 12;
+  const labelFont = '400 9px "Inconsolata",monospace';
+
+  // Pre-2018
+  ctx.save();
+  ctx.fillStyle = C.ax; ctx.font = labelFont; ctx.globalAlpha = 0.75; ctx.textAlign = 'center';
+  ctx.fillText('~$10–20/t', xp(1), labelY);
+  ctx.restore();
+
+  // 2018 (BBA) — one line only, no DAC
+  const idx2018 = q45Data.findIndex(d => d.year === '2018');
+  const x2018 = xp(idx2018) + 5;
+  ctx.save();
+  ctx.fillStyle = '#6B7C8D'; ctx.font = labelFont; ctx.globalAlpha = 0.85; ctx.textAlign = 'left';
+  ctx.fillText('$35–50/t', x2018, labelY);
+  ctx.restore();
+
+  // 2022 (IRA) — two lines: CCS rate + DAC range
+  const idx2022 = q45Data.findIndex(d => d.year === '2022');
+  const x2022 = xp(idx2022) + 5;
+  ctx.save();
+  ctx.fillStyle = '#535470'; ctx.font = labelFont; ctx.globalAlpha = 0.85; ctx.textAlign = 'left';
+  ctx.fillText('$60–$85/t', x2022, labelY - lineH/2);
+  ctx.fillText('$135–$180/t DAC', x2022, labelY + lineH/2);
+  ctx.restore();
+
+  // 2025 (OBBBA) — two lines: leveled rates
+  const idx2025 = q45Data.findIndex(d => d.year === '2025');
+  const x2025 = xp(idx2025) + 5;
+  ctx.save();
+  ctx.fillStyle = '#2A4A5E'; ctx.font = labelFont; ctx.globalAlpha = 0.85; ctx.textAlign = 'left';
+  ctx.fillText('$85/t', x2025, labelY - lineH/2);
+  ctx.fillText('$180/t DAC', x2025, labelY + lineH/2);
+  ctx.restore();
+
+  // projection label — centered in the projection zone
+  const dx = (xp(9)+xp(10))/2;
+  ctx.save();
+  ctx.fillStyle='#2A4A5E'; ctx.font='300 9px "Inconsolata",monospace'; ctx.textAlign='center'; ctx.globalAlpha=0.85;
+  ctx.fillText('Projection', (dx + p.l+cw) / 2, p.t+12);
+  ctx.restore();
+
+  // projection band
+  const pis = q45Data.map((d,i)=>d.mid!==undefined?i:-1).filter(i=>i>=0);
+  if(pis.length){
+    ctx.save(); ctx.globalAlpha=0.07; ctx.fillStyle=C.proj;
+    ctx.beginPath(); ctx.moveTo(xp(pis[0]),yp(q45Data[pis[0]].hi));
+    pis.forEach(i=>ctx.lineTo(xp(i),yp(q45Data[i].hi)));
+    pis.slice().reverse().forEach(i=>ctx.lineTo(xp(i),yp(q45Data[i].lo)));
+    ctx.closePath(); ctx.fill();
+    ctx.globalAlpha=0.25; ctx.strokeStyle=C.proj; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+    ctx.beginPath(); pis.forEach((i,j)=>j===0?ctx.moveTo(xp(i),yp(q45Data[i].hi)):ctx.lineTo(xp(i),yp(q45Data[i].hi))); ctx.stroke();
+    ctx.beginPath(); pis.forEach((i,j)=>j===0?ctx.moveTo(xp(i),yp(q45Data[i].lo)):ctx.lineTo(xp(i),yp(q45Data[i].lo))); ctx.stroke();
+    ctx.setLineDash([]); ctx.globalAlpha=1; ctx.restore();
+  }
+
+  // bars
+  q45Data.forEach((d,i)=>{
+    if(d.hist===undefined) return;
+    const x=xp(i)-bw/2, y=yp(d.hist), bh=ch-(y-p.t);
+    ctx.fillStyle=C.hist+'bb';
+    ctx.fillRect(x,y,bw,bh);
+  });
+
+  // projection connector + line
+  const lh=q45Data.findIndex(d=>d.year==='2024'), fp=q45Data.findIndex(d=>d.year==='2025');
+  ctx.save(); ctx.strokeStyle=C.proj; ctx.lineWidth=1.5; ctx.setLineDash([3,3]); ctx.globalAlpha=0.35;
+  ctx.beginPath(); ctx.moveTo(xp(lh),yp(q45Data[lh].hist)); ctx.lineTo(xp(fp),yp(q45Data[fp].mid)); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha=1; ctx.restore();
+
+  ctx.strokeStyle=C.proj; ctx.lineWidth=2;
+  ctx.beginPath(); pis.forEach((i,j)=>{const x=xp(i),y=yp(q45Data[i].mid); j===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}); ctx.stroke();
+  pis.forEach(i=>{
+    ctx.fillStyle=C.proj; ctx.beginPath(); ctx.arc(xp(i),yp(q45Data[i].mid),3.5,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=C.bg; ctx.lineWidth=1.5; ctx.stroke();
+  });
+
+  // Y axis line
+  ctx.strokeStyle=C.ink; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(p.l,p.t); ctx.lineTo(p.l,p.t+ch); ctx.stroke();
+
+  // X axis line
+  ctx.beginPath(); ctx.moveTo(p.l,p.t+ch); ctx.lineTo(p.l+cw,p.t+ch); ctx.stroke();
+
+  // outer border box (top + right sides complete the rectangle)
+  ctx.strokeStyle=C.ink; ctx.lineWidth=1.5;
+  ctx.beginPath();
+  ctx.moveTo(p.l,p.t); ctx.lineTo(p.l+cw,p.t);       // top
+  ctx.moveTo(p.l+cw,p.t); ctx.lineTo(p.l+cw,p.t+ch); // right
+  ctx.stroke();
+
+  // Y axis labels
+  [0,2,4,6,8].forEach(v => {
+    const y = yp(v);
+    ctx.fillStyle=C.ax; ctx.font='300 10px "Inconsolata",monospace'; ctx.textAlign='right';
+    ctx.fillText('$'+v+'B', p.l-8, y+4);
+  });
+  // Y axis title
+  ctx.save();
+  ctx.fillStyle=C.ax; ctx.font='300 9px "Inconsolata",monospace'; ctx.textAlign='center';
+  ctx.translate(12, p.t+ch/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('CREDITS ($B)', 0, 0);
+  ctx.restore();
+
+  // X axis labels
+  ctx.fillStyle=C.ax; ctx.font='300 10px "Inconsolata",monospace'; ctx.textAlign='center';
+  q45Data.forEach((d,i)=>{ if(i%2===0||i===N-1) ctx.fillText(d.year, xp(i), p.t+ch+18); });
+
+  el._x=xp; el._y=yp; el._p=p; el._W=W; el._H=H;
+}
+
+function drawC2() {
+  const el = document.getElementById('chart2');
+  const W = el.parentElement.clientWidth||1100, H = 380;
+  const ctx = initCanvas('chart2', W, H);
+  const p = {t:24,r:24,b:52,l:58};
+  const cw = W-p.l-p.r, ch = H-p.t-p.b;
+  const N=compData.length, bw=(cw/N)*0.62, my=72;
+  const xp=i=>p.l+(i+0.5)*(cw/N);
+  const yp=v=>p.t+ch-(v/my)*ch;
+
+  ctx.fillStyle=C.bg; ctx.fillRect(0,0,W,H);
+
+  // grid lines
+  [0,20,40,60].forEach(v=>{
+    const y=yp(v);
+    ctx.strokeStyle=C.grid; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(p.l,y); ctx.lineTo(p.l+cw,y); ctx.stroke();
+  });
+
+  // hist/proj divider
+  const dx=(xp(9)+xp(10))/2;
+  ctx.save(); ctx.strokeStyle='#8B6914'; ctx.lineWidth=1; ctx.setLineDash([3,4]); ctx.globalAlpha=0.45;
+  ctx.beginPath(); ctx.moveTo(dx,p.t); ctx.lineTo(dx,p.t+ch); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha=1; ctx.restore();
+
+  // bars
+  const layers=[{key:'solar',color:C.solar},{key:'batt',color:C.batt},{key:'wind',color:C.wind},{key:'q45',color:C.ccs}];
+  compData.forEach((d,i)=>{
+    let base=0;
+    layers.forEach(l=>{
+      const v=d[l.key], x=xp(i)-bw/2, yT=yp(base+v), yB=yp(base), bh=yB-yT;
+      ctx.fillStyle=d.proj?l.color+'66':l.color+'dd';
+      ctx.fillRect(x,yT,bw,bh);
+      base+=v;
+    });
+  });
+
+  // Y axis line
+  ctx.strokeStyle=C.ink; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(p.l,p.t); ctx.lineTo(p.l,p.t+ch); ctx.stroke();
+
+  // X axis line
+  ctx.beginPath(); ctx.moveTo(p.l,p.t+ch); ctx.lineTo(p.l+cw,p.t+ch); ctx.stroke();
+
+  // border top + right
+  ctx.beginPath();
+  ctx.moveTo(p.l,p.t); ctx.lineTo(p.l+cw,p.t);
+  ctx.moveTo(p.l+cw,p.t); ctx.lineTo(p.l+cw,p.t+ch);
+  ctx.stroke();
+
+  // Y axis labels
+  [0,20,40,60].forEach(v=>{
+    const y=yp(v);
+    ctx.fillStyle=C.ax; ctx.font='300 10px "Inconsolata",monospace'; ctx.textAlign='right';
+    ctx.fillText('$'+v+'B', p.l-8, y+4);
+  });
+  // Y axis title
+  ctx.save();
+  ctx.fillStyle=C.ax; ctx.font='300 9px "Inconsolata",monospace'; ctx.textAlign='center';
+  ctx.translate(12, p.t+ch/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('CREDITS ($B)', 0, 0);
+  ctx.restore();
+
+  // X axis labels
+  ctx.fillStyle=C.ax; ctx.font='300 10px "Inconsolata",monospace'; ctx.textAlign='center';
+  compData.forEach((d,i)=>{if(i%2===0||i===N-1) ctx.fillText(d.year,xp(i),p.t+ch+18);});
+
+  el._x=xp; el._y=yp; el._p=p; el._W=W; el._H=H;
+}
+
+function drawC3() {
+  const el = document.getElementById('chart3');
+  const W = el.parentElement.clientWidth||1100, H = 240;
+  const ctx = initCanvas('chart3', W, H);
+  const p = {t:24,r:24,b:52,l:58};
+  const cw=W-p.l-p.r, ch=H-p.t-p.b;
+  const shares=compData.map(d=>({year:d.year,share:(d.q45/(d.solar+d.batt+d.wind+d.q45))*100,proj:d.proj}));
+  const my=30;
+  const xp=i=>p.l+(i+0.5)*(cw/compData.length);
+  const yp=v=>p.t+ch-(v/my)*ch;
+
+  ctx.fillStyle=C.bg; ctx.fillRect(0,0,W,H);
+
+  // grid lines
+  [0,10,20,30].forEach(v=>{
+    const y=yp(v);
+    ctx.strokeStyle=C.grid; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(p.l,y); ctx.lineTo(p.l+cw,y); ctx.stroke();
+  });
+
+  // area fill
+  ctx.save(); ctx.globalAlpha=0.07;
+  const g=ctx.createLinearGradient(0,p.t,0,p.t+ch);
+  g.addColorStop(0,C.proj); g.addColorStop(1,C.bg);
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  shares.forEach((d,i)=>i===0?ctx.moveTo(xp(i),yp(d.share)):ctx.lineTo(xp(i),yp(d.share)));
+  ctx.lineTo(xp(shares.length-1),yp(0)); ctx.lineTo(xp(0),yp(0)); ctx.closePath(); ctx.fill();
+  ctx.globalAlpha=1; ctx.restore();
+
+  // line + dots
+  ctx.strokeStyle=C.proj; ctx.lineWidth=2;
+  ctx.beginPath(); shares.forEach((d,i)=>{const x=xp(i),y=yp(d.share);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}); ctx.stroke();
+  shares.forEach((d,i)=>{
+    ctx.fillStyle=d.proj?C.proj+'55':C.proj;
+    ctx.beginPath(); ctx.arc(xp(i),yp(d.share),3,0,Math.PI*2); ctx.fill();
+  });
+
+  // Y axis line
+  ctx.strokeStyle=C.ink; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(p.l,p.t); ctx.lineTo(p.l,p.t+ch); ctx.stroke();
+
+  // X axis line
+  ctx.beginPath(); ctx.moveTo(p.l,p.t+ch); ctx.lineTo(p.l+cw,p.t+ch); ctx.stroke();
+
+  // border top + right
+  ctx.beginPath();
+  ctx.moveTo(p.l,p.t); ctx.lineTo(p.l+cw,p.t);
+  ctx.moveTo(p.l+cw,p.t); ctx.lineTo(p.l+cw,p.t+ch);
+  ctx.stroke();
+
+  // Y axis labels
+  [0,10,20,30].forEach(v=>{
+    const y=yp(v);
+    ctx.fillStyle=C.ax; ctx.font='300 10px "Inconsolata",monospace'; ctx.textAlign='right';
+    ctx.fillText(v+'%',p.l-8,y+4);
+  });
+  // Y axis title
+  ctx.save();
+  ctx.fillStyle=C.ax; ctx.font='300 9px "Inconsolata",monospace'; ctx.textAlign='center';
+  ctx.translate(12, p.t+ch/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('45Q SHARE (%)', 0, 0);
+  ctx.restore();
+
+  // X axis labels
+  ctx.fillStyle=C.ax; ctx.font='300 10px "Inconsolata",monospace'; ctx.textAlign='center';
+  shares.forEach((d,i)=>{if(i%2===0||i===shares.length-1) ctx.fillText(d.year,xp(i),p.t+ch+18);});
+}
+
+// ── TOOLTIPS (unchanged) ──────────────────────────────────────────────────────
+function addTT1(){
+  const c=document.getElementById('chart1'), t=document.getElementById('tt1');
+  const N=q45Data.length;
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect(), mx=e.clientX-r.left;
+    const i=Math.floor((mx-c._p.l)/((c._W-c._p.l-c._p.r)/N));
+    if(i<0||i>=N){t.style.display='none';return;}
+    const d=q45Data[i], pr=d.mid!==undefined;
+    t.innerHTML=`<div class="tt-year">${d.year} · ${pr?'Projected':'Historical'}</div>
+      ${pr?`<div class="tt-row"><span>Mid</span><strong>$${d.mid.toFixed(2)}B</strong></div>
+        <div class="tt-row"><span>Low</span><strong>$${d.lo.toFixed(2)}B</strong></div>
+        <div class="tt-row"><span>High</span><strong>$${d.hi.toFixed(2)}B</strong></div>`
+      :`<div class="tt-row"><span>Credits Claimed</span><strong>$${d.hist.toFixed(3)}B</strong></div>`}
+      <div class="tt-note">${d.note}</div>`;
+    t.style.display='block';
+    t.style.left=Math.min(mx+14,c._W-280)+'px';
+    t.style.top=Math.max(e.clientY-r.top-70,8)+'px';
+  });
+  c.addEventListener('mouseleave',()=>t.style.display='none');
+}
+
+function addTT2(){
+  const c=document.getElementById('chart2'), t=document.getElementById('tt2');
+  const N=compData.length;
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect(), mx=e.clientX-r.left;
+    const i=Math.floor((mx-c._p.l)/((c._W-c._p.l-c._p.r)/N));
+    if(i<0||i>=N){t.style.display='none';return;}
+    const d=compData[i], tot=d.solar+d.batt+d.wind+d.q45;
+    const sh=((d.q45/tot)*100).toFixed(1);
+    t.innerHTML=`<div class="tt-year">${d.year} · ${d.proj?'Projected':'Historical'}</div>
+      <div class="tt-row"><span>Solar ITC</span><strong>$${d.solar.toFixed(1)}B</strong></div>
+      <div class="tt-row"><span>Battery ITC</span><strong>$${d.batt.toFixed(1)}B</strong></div>
+      <div class="tt-row"><span>Wind PTC</span><strong>$${d.wind.toFixed(1)}B</strong></div>
+      <div class="tt-row"><span>45Q CCS</span><strong>$${d.q45.toFixed(2)}B</strong></div>
+      <div class="tt-note">Total $${tot.toFixed(1)}B · 45Q share ${sh}%</div>`;
+    t.style.display='block';
+    t.style.left=Math.min(mx+14,c._W-250)+'px';
+    t.style.top=Math.max(e.clientY-r.top-70,8)+'px';
+  });
+  c.addEventListener('mouseleave',()=>t.style.display='none');
+}
+
+// ── SWITCHERS (unchanged) ─────────────────────────────────────────────────────
+function setupSw(swId, viewMap){
+  document.getElementById(swId).querySelectorAll('.vsw').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.getElementById(swId).querySelectorAll('.vsw').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      Object.entries(viewMap).forEach(([k,el])=>el.classList.toggle('vis',k===btn.dataset.view));
+      if(btn.dataset.view==='share') drawC3();
+    });
+  });
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  drawC1(); drawC2(); addTT1(); addTT2();
+  setupSw('sw1',{chart:document.getElementById('v-chart'),table:document.getElementById('v-table'),projects:document.getElementById('v-projects')});
+  setupSw('sw2',{stacked:document.getElementById('v-stacked'),share:document.getElementById('v-share'),context:document.getElementById('v-context')});
+});
+window.addEventListener('resize',()=>{
+  drawC1(); drawC2();
+  if(document.getElementById('v-share').classList.contains('vis')) drawC3();
+});
+</script>
+</body>
+</html>
